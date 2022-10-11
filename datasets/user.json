@@ -1,7 +1,7 @@
 [
     {
-        "pk": 1,
         "model": "users.user",
+        "pk": 1,
         "fields": {
             "first_name": "Павел",
             "last_name": "Никифоров",
@@ -9,12 +9,14 @@
             "password": "gZvptL",
             "role": "member",
             "age": 21,
-            "location_id": 1
+            "location_id": [
+                1
+            ]
         }
     },
     {
-        "pk": 2,
         "model": "users.user",
+        "pk": 2,
         "fields": {
             "first_name": "Альбина",
             "last_name": "Игнатьева",
@@ -22,12 +24,14 @@
             "password": "4fVqL2",
             "role": "moderator",
             "age": 24,
-            "location_id": 3
+            "location_id": [
+                3
+            ]
         }
     },
     {
-        "pk": 3,
         "model": "users.user",
+        "pk": 3,
         "fields": {
             "first_name": "Иван",
             "last_name": "Сысоев",
@@ -35,12 +39,14 @@
             "password": "o535pj",
             "role": "admin",
             "age": 29,
-            "location_id": 8
+            "location_id": [
+                8
+            ]
         }
     },
     {
-        "pk": 4,
         "model": "users.user",
+        "pk": 4,
         "fields": {
             "first_name": "Марина",
             "last_name": "Беркутова",
@@ -48,12 +54,14 @@
             "password": "d49rSO",
             "role": "moderator",
             "age": 19,
-            "location_id": 10
+            "location_id": [
+                10
+            ]
         }
     },
     {
-        "pk": 5,
         "model": "users.user",
+        "pk": 5,
         "fields": {
             "first_name": "Галина",
             "last_name": "Иванова",
@@ -61,12 +69,14 @@
             "password": "wCqlVE",
             "role": "member",
             "age": 41,
-            "location_id": 2
+            "location_id": [
+                2
+            ]
         }
     },
     {
-        "pk": 6,
         "model": "users.user",
+        "pk": 6,
         "fields": {
             "first_name": "Петр",
             "last_name": "Бойченко",
@@ -74,12 +84,14 @@
             "password": "xuR2jf",
             "role": "member",
             "age": 37,
-            "location_id": 4
+            "location_id": [
+                4
+            ]
         }
     },
     {
-        "pk": 7,
         "model": "users.user",
+        "pk": 7,
         "fields": {
             "first_name": "Никита",
             "last_name": "",
@@ -87,12 +99,14 @@
             "password": "gzP4vR",
             "role": "member",
             "age": 26,
-            "location_id": 7
+            "location_id": [
+                7
+            ]
         }
     },
     {
-        "pk": 8,
         "model": "users.user",
+        "pk": 8,
         "fields": {
             "first_name": "Виолетта",
             "last_name": "Петушок",
@@ -100,12 +114,14 @@
             "password": "zo0rj6",
             "role": "member",
             "age": 24,
-            "location_id": 5
+            "location_id": [
+                5
+            ]
         }
     },
     {
-        "pk": 9,
         "model": "users.user",
+        "pk": 9,
         "fields": {
             "first_name": "Гульнара",
             "last_name": "Ибрагимова",
@@ -113,12 +129,14 @@
             "password": "daMocL",
             "role": "moderator",
             "age": 22,
-            "location_id": 9
+            "location_id": [
+                9
+            ]
         }
     },
     {
-        "pk": 10,
         "model": "users.user",
+        "pk": 10,
         "fields": {
             "first_name": "Борис",
             "last_name": "Зайка",
@@ -126,7 +144,9 @@
             "password": "sasha123456",
             "role": "member",
             "age": 35,
-            "location_id": 6
+            "location_id": [
+                6
+            ]
         }
     }
 ]

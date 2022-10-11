@@ -7,8 +7,8 @@ class Location(models.Model):
     lng = models.DecimalField(max_digits=8, decimal_places=6, null=True)
 
     class Meta:
-        verbose_name = "Расположение"
-        verbose_name_plural = "Расположения"
+        verbose_name = "Местоположение"
+        verbose_name_plural = "Местоположения"
 
     def __str__(self):
         return self.name
@@ -27,7 +27,7 @@ class User(models.Model):
     password = models.CharField(max_length=30)
     role = models.CharField(max_length=9, default="member", choices=ROLE)
     age = models.PositiveIntegerField()
-    location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True)
+    locations = models.ManyToManyField(Location)
 
     class Meta:
         verbose_name = "Пользователь"

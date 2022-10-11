@@ -79,20 +79,20 @@ class AdCreateView(CreateView):
 
         new_ad = Ad.objects.create(
             name=ad_data['name'],
-            author=get_object_or_404(User, pk=ad_data['author_id']),
+            author=get_object_or_404(User, pk=ad_data['author']),
             price=ad_data['price'],
             description=ad_data['description'],
             is_published=ad_data['is_published'],
-            category=get_object_or_404(Category, pk=ad_data['category_id']))
+            category=get_object_or_404(Category, pk=ad_data['category']))
 
         return JsonResponse({
             'id': new_ad.id,
             'name': new_ad.name,
-            'author': new_ad.author,
+            'author': new_ad.author.username,
             'price': new_ad.price,
             'description': new_ad.description,
             'is_published': new_ad.is_published,
-            'category': new_ad.category,
+            'category': new_ad.category.name,
             'image': new_ad.image.url if new_ad.image else None
         }, json_dumps_params={"ensure_ascii": False})
 

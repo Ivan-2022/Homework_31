@@ -19,7 +19,7 @@ def csv_to_json(csv_file_path, json_file_path, model):
     with open(csv_file_path, encoding='utf-8') as csvf:
         csv_reader = csv.DictReader(csvf)
         for row in csv_reader:
-            to_add = {'pk': int(row['Id'] if 'Id' in row else int(row['id'])), 'model': model}
+            to_add = {'model': model, 'pk': int(row['Id']) if 'Id' in row else int(row['id'])}
             if 'Id' in row:
                 del row['Id']
             else:
@@ -31,11 +31,11 @@ def csv_to_json(csv_file_path, json_file_path, model):
                     row['is_published'] = False
             if 'price' in row:
                 row['price'] = int(row['price'])
-            to_add['fields'] = row
+
             if 'category_id' in row:
                 row['category_id'] = int(row['category_id'])
             if 'location_id' in row:
-                row['location_id'] = int(row['location_id'])
+                row['location_id'] = [int(row['location_id'])]
             if 'author_id' in row:
                 row['author_id'] = int(row['author_id'])
             if 'lat' in row:
@@ -44,6 +44,7 @@ def csv_to_json(csv_file_path, json_file_path, model):
                 row['lng'] = float(row['lng'])
             if 'age' in row:
                 row['age'] = int(row['age'])
+            to_add['fields'] = row
 
             data.append(to_add)
 

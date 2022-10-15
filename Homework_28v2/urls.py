@@ -17,17 +17,23 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import routers
 
-from ads import view
+from ads.views import ad
+from users.views import LocationViewSet
+
+router = routers.SimpleRouter()
+router.register('location', LocationViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', view.status),
+    path('', ad.status),
     path('cat/', include('ads.urls.cat')),
     path('ad/', include('ads.urls.ad')),
     path('user/', include('users.urls')),
 ]
 
+urlpatterns += router.urls
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

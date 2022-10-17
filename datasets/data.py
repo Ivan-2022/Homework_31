@@ -34,8 +34,8 @@ def csv_to_json(csv_file_path, json_file_path, model):
 
             if 'category_id' in row:
                 row['category_id'] = int(row['category_id'])
-            if 'location_id' in row:
-                row['location_id'] = [int(row['location_id'])]
+            if 'locations' in row:
+                row['locations'] = [int(row['locations'])]
             if 'author_id' in row:
                 row['author_id'] = int(row['author_id'])
             if 'lat' in row:

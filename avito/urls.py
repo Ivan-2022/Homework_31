@@ -1,4 +1,4 @@
-"""Homework_28v2 URL Configuration
+"""avito URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -31,6 +31,7 @@ urlpatterns = [
     path('cat/', include('ads.urls.cat')),
     path('ad/', include('ads.urls.ad')),
     path('user/', include('users.urls')),
+    path('selection/', include('selections.urls')),
 ]
 
 urlpatterns += router.urls

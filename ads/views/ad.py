@@ -2,19 +2,25 @@ from django.http import JsonResponse
 
 from django.utils.decorators import method_decorator
 
-from django.views.generic import DetailView, UpdateView, DeleteView, CreateView
-from rest_framework.generics import ListAPIView
+from django.views.generic import UpdateView, CreateView
+from rest_framework.decorators import api_view, permission_classes
+
+from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from ads.models import Category
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 
-from ads.serializer import AdListSerializer
+from ads.permissions import AdUpdatePermission
+from ads.serializer import AdListSerializer, AdDetailSerializer, AdUpdateSerializer, AdDestroySerializer
 from ads.models import Ad
 from users.models import User
 
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def status(request):
     return JsonResponse({"status": "ok"}, status=200)
 
@@ -49,24 +55,10 @@ class AdListView(ListAPIView):
         return super().get(request, *args, **kwargs)
 
 
-class AdDetailView(DetailView):
-    model = Ad
-
-    def get(self, request, *args, **kwargs):
-        ad = self.get_object()
-
-        return JsonResponse({
-            'id': ad.id,
-            'author_id': ad.author_id,
-            'author': str(ad.author),
-            'name': ad.name,
-            'price': ad.price,
-            'description': ad.description,
-            'is_published': ad.is_published,
-            'image': ad.image.url if ad.image else None,
-            'category_id': ad.category_id,
-            'category': str(ad.category)
-                }, safe=False, json_dumps_params={"ensure_ascii": False}, status=200)
+class AdDetailView(RetrieveAPIView):
+    queryset = Ad.objects.all()
+    serializer_class = AdDetailSerializer
+    permission_classes = [IsAuthenticated]
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -97,36 +89,10 @@ class AdCreateView(CreateView):
         }, json_dumps_params={"ensure_ascii": False})
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class AdUpdateView(UpdateView):
-    model = Ad
-    fields = ['name', 'author', 'price', 'description', 'category']
-
-    def patch(self, request, *args, **kwargs):
-        super().post(request, *args, **kwargs)
-        ad_data = json.loads(request.body)
-
-        self.object.name = ad_data["name"]
-
-        self.object.author_id = ad_data["author_id"]
-        self.object.price = ad_data["price"]
-        self.object.description = ad_data["description"]
-        self.object.category_id = ad_data["category_id"]
-        self.object.save()
-
-        response = {
-            'id': self.object.id,
-            'author_id': self.object.author_id,
-            'name': self.object.name,
-            'price': self.object.price,
-            'description': self.object.description,
-            'is_published': self.object.is_published,
-            'image': self.object.image.url if self.object.image else None,
-            'category_id': self.object.category_id,
-        }
-
-        return JsonResponse(response,
-                            json_dumps_params={"ensure_ascii": False}, status=200)
+class AdUpdateView(UpdateAPIView):
+    queryset = Ad.objects.all()
+    serializer_class = AdUpdateSerializer
+    permission_classes = [IsAuthenticated, AdUpdatePermission]
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -150,12 +116,7 @@ class AdImageView(UpdateView):
             }, json_dumps_params={"ensure_ascii": False}, status=200)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class AdDeleteView(DeleteView):
-    model = Ad
-    success_url = '/'
-
-    def delete(self, request, *args, **kwargs):
-        super().delete(request, *args, **kwargs)
-
-        return JsonResponse({'status': 'OK'})
+class AdDeleteView(DestroyAPIView):
+    queryset = Ad.objects.all()
+    serializer_class = AdDestroySerializer
+    permission_classes = [IsAuthenticated, AdUpdatePermission]

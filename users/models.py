@@ -1,5 +1,12 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
+
+
+def check_email_domain(email):
+    address, domain = email.split('@')
+    if domain == 'rambler.ru':
+        raise ValidationError("Регистрация с почтового адреса в домене 'rambler.ru' запрещена")
 
 
 class Location(models.Model):
@@ -23,6 +30,8 @@ class User(AbstractUser):
 
     role = models.CharField(max_length=9, default=MEMBER, choices=ROLE)
     age = models.PositiveIntegerField(null=True)
+    birth_date = models.DateField(null=True, blank=True)
+    email = models.EmailField(unique=True, null=True, validators=[check_email_domain])
     locations = models.ManyToManyField(Location)
 
     class Meta:

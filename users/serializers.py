@@ -1,6 +1,19 @@
+from datetime import date
+
 from rest_framework import serializers
 
 from users.models import Location, User
+
+
+class UserAgeValidator:
+    def __init__(self, min_age):
+        self.min_age = min_age
+
+    def __call__(self, date_birth):
+        today = date.today()
+        age = today.year - date_birth.year - ((today.month, today.day) < (date_birth.month, date_birth.day))
+        if age < self.min_age:
+            raise serializers.ValidationError(f'Пользователь младше {self.min_age} лет не может зарегестрироваться.')
 
 
 class LocationSerializer(serializers.ModelSerializer):
@@ -41,6 +54,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
         queryset=Location.objects.all(),
         slug_field="name"
     )
+    birth_date = serializers.DateField(validators=[UserAgeValidator(9)])
+
 
     class Meta:
         model = User
